@@ -93,7 +93,7 @@ void draw(){
     float size=max(width*1./gif[gifSel][0].width,height*1./gif[gifSel][0].height);
     if(gifBeat[gifSel]==0)
     {
-      image(gif[gifSel][frameCount%gif[gifSel].length],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
+      image(gif[gifSel][int(((beat/4)%1)*gif[gifSel].length)],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
     }else{
       image(gif[gifSel][int(((beat/gifBeat[gifSel])%1)*gif[gifSel].length)],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
     }
@@ -119,7 +119,7 @@ void draw(){
       pmShader.set("e3",pm3x[c],pm3y[c]);
       if(gifBeat[c]==0)
       {
-        pmShader.set("tex",gif[c][frameCount%gif[c].length]);
+        pmShader.set("tex",gif[c][int(((beat/4)%1)*gif[c].length)]);
       }else{
         pmShader.set("tex",gif[c][int(((beat/gifBeat[c])%1)*gif[c].length)]);
       }
