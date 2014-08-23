@@ -1,10 +1,10 @@
 int w=240,h=240;
 
-int sel=0;
 float bpm=120;
 int millisP;
 float beat,beatFX;
 int beatView;
+int tap,tapCount;
 
 String console="";
 String consoleP="";
@@ -13,15 +13,11 @@ int consoleMode;
 PFont font;
 
 int pm;
-int[] pm0x=new int[9],pm0y=new int[9],pm1x=new int[9],pm1y=new int[9],pm2x=new int[9],pm2y=new int[9],pm3x=new int[9],pm3y=new int[9];
+int[] pm0x=new int[5],pm0y=new int[5],pm1x=new int[5],pm1y=new int[5],pm2x=new int[5],pm2y=new int[5],pm3x=new int[5],pm3y=new int[5];
 PShader pmShader;
 
 import themidibus.*;
 MidiBus myBus;
-
-import processing.video.*;
-Movie[] mov=new Movie[4];
-int movSel;
 
 import gifAnimation.*;
 PImage[][] gif=new PImage[4][];
@@ -39,6 +35,7 @@ int fxAble[]=new int[4];
 int[] mouseP=new int[2];
 int beatP;
 float beatPBas,beatPEnv;
+
 int cursor=1;
 
 void setup(){
@@ -51,13 +48,6 @@ void setup(){
   
   MidiBus.list();
   myBus=new MidiBus(this,1,-1);
-  
-  for(int c=0;c<4;c++)
-  {
-    mov[c]=new Movie(this,"_/_.png");
-    mov[c].loop();
-    mov[c].volume(0);
-  }
   
   for(int c=0;c<4;c++)
   {
@@ -88,11 +78,6 @@ void draw(){
   
   background(0);
   
-  for(int c=0;c<4;c++)
-  {
-    if(mov[c].time()>=mov[c].duration()-.1)mov[c].jump(0.);
-  }
-  
   if(mouseP[0]!=-1){
     if(mouseP[0]==4){procParam=mouseX*1./width;}else{param[mouseP[0]]=mouseX*1./width;}
   }
@@ -103,25 +88,19 @@ void draw(){
     if(beatP==4){procParam=beatPBas+sin(beatFX*PI)*beatPEnv;}else{param[beatP]=beatPBas+sin(beatFX*PI)*beatPEnv;}
   }
   
-  if(pm==0){
-    if(sel==0)
+  if(pm==0)
+  {
+    float size=max(width*1./gif[gifSel][0].width,height*1./gif[gifSel][0].height);
+    if(gifBeat[gifSel]==0)
     {
-      float size=max(width*1./mov[movSel].width,height*1./mov[movSel].height);
-      image(mov[movSel],width/2,height/2,mov[movSel].width*size,mov[movSel].height*size);
+      image(gif[gifSel][frameCount%gif[gifSel].length],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
+    }else{
+      image(gif[gifSel][int(((beat/gifBeat[gifSel])%1)*gif[gifSel].length)],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
     }
     
-    if(sel==1)
-    {
-      float size=max(width*1./gif[gifSel][0].width,height*1./gif[gifSel][0].height);
-      if(gifBeat[gifSel]==0)
-      {
-        image(gif[gifSel][frameCount%gif[gifSel].length],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
-      }else{
-        image(gif[gifSel][int(((beat/gifBeat[gifSel])%1)*gif[gifSel].length)],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
-      }
-    }
     proc();
     image(proc,width/2,height/2);
+    
     for(int c=0;c<4;c++)
     {
       if(fxAble[c]==0)continue;
@@ -138,16 +117,6 @@ void draw(){
       pmShader.set("e1",pm1x[c],pm1y[c]);
       pmShader.set("e2",pm2x[c],pm2y[c]);
       pmShader.set("e3",pm3x[c],pm3y[c]);
-      pmShader.set("tex",mov[c]);
-      filter(pmShader);
-    }
-    for(int c=0;c<4;c++)
-    {
-      pmShader.set("size",width,height);
-      pmShader.set("e0",pm0x[c+4],pm0y[c+4]);
-      pmShader.set("e1",pm1x[c+4],pm1y[c+4]);
-      pmShader.set("e2",pm2x[c+4],pm2y[c+4]);
-      pmShader.set("e3",pm3x[c+4],pm3y[c+4]);
       if(gifBeat[c]==0)
       {
         pmShader.set("tex",gif[c][frameCount%gif[c].length]);
@@ -158,10 +127,10 @@ void draw(){
     }
     proc();
     pmShader.set("size",width,height);
-    pmShader.set("e0",pm0x[8],pm0y[8]);
-    pmShader.set("e1",pm1x[8],pm1y[8]);
-    pmShader.set("e2",pm2x[8],pm2y[8]);
-    pmShader.set("e3",pm3x[8],pm3y[8]);
+    pmShader.set("e0",pm0x[4],pm0y[4]);
+    pmShader.set("e1",pm1x[4],pm1y[4]);
+    pmShader.set("e2",pm2x[4],pm2y[4]);
+    pmShader.set("e3",pm3x[4],pm3y[4]);
     pmShader.set("tex",proc);
     filter(pmShader);
   }
@@ -177,8 +146,4 @@ void draw(){
     textFont(font);
     text(console,2,height-4);
   }
-}
-
-void movieEvent(Movie m){
-  m.read();
 }

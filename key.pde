@@ -18,33 +18,12 @@ void keyPressed(){
       if(4<=console.length()&&console.substring(0,4).equals("help")){
         consoleMode=2;
         console="commands: help mov gif fx yay";
-      }else if(3<=console.length()&&console.substring(0,3).equals("mov")){
-        if(3==console.length()){yikes();return;}
-        int num=console.charAt(3)-48;
-        if(num<0||3<num){yikes();return;}
-        if(4==console.length()){
-          sel=0;movSel=num;
-          yay();return;
-        }else if(9<=console.length()&&console.substring(5,9).equals("load")){
-          if(console.length()<11){plz("filename");return;}
-          String name=console.substring(10,console.length());
-          byte[] temp=loadBytes(name);
-          if(temp==null){
-            consoleMode=3;console="not found";return;
-          }
-          mov[num]=new Movie(this,name);
-          mov[num].loop();
-          mov[num].volume(0);
-          yay();return;
-        }else{
-          consoleMode=3;console="nope";return;
-        }
       }else if(3<=console.length()&&console.substring(0,3).equals("gif")){
         if(3==console.length()){yikes();return;}
         int num=console.charAt(3)-48;
         if(num<0||3<num){yikes();return;}
         if(4==console.length()){
-          sel=1;gifSel=num;
+          gifSel=num;
           yay();return;
         }else if(9<=console.length()&&console.substring(5,9).equals("load")){
           if(console.length()<11){plz("filename");return;}
@@ -126,6 +105,17 @@ void keyPressed(){
         if(Float.isNaN(float(val))){nan();return;}
         bpm=float(val);
         yay();return;
+      }else if(3<=console.length()&&console.substring(0,3).equals("tap")){
+        tapCount--;
+        if(tapCount==0){
+          bpm=60000*15./(millis()-tap);
+          consoleMode=2;console="your current bpm is "+bpm;return;
+        }
+        if(tapCount==-1){
+          tap=millis();
+          tapCount=15;
+        }
+        consoleMode=1;console="tap "+tapCount;return;
       }else if(4==console.length()&&console.substring(0,4).equals("down")){
         beat=0;
         beatFX=1;
@@ -180,13 +170,11 @@ void keyPressed(){
           int num;
           String vars=console.substring(3,6);
           if(vars.equals("pro")){
-            num=8;
+            num=4;
           }else{
             num=console.charAt(6)-48;
             if(num<0||3<num){yikes();return;}
-            if(vars.equals("mov")){
-            }else if(vars.equals("gif")){
-              num+=4;
+            if(vars.equals("gif")){
             }else{
               consoleMode=3;console="nope";return;
             }
