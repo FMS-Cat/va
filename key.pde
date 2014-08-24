@@ -15,10 +15,7 @@ void keyPressed(){
   else if(key==ENTER||key==RETURN){
     if(consoleMode==1){
       consoleP=console;
-      if(4<=console.length()&&console.substring(0,4).equals("help")){
-        consoleMode=2;
-        console="commands: help mov gif fx yay";
-      }else if(3<=console.length()&&console.substring(0,3).equals("gif")){
+      if(3<=console.length()&&console.substring(0,3).equals("gif")){
         if(3==console.length()){yikes();return;}
         int num=console.charAt(3)-48;
         if(num<0||3<num){yikes();return;}
@@ -35,7 +32,9 @@ void keyPressed(){
           if(!console.substring(console.length()-4,console.length()).equals(".gif")){
             consoleMode=3;console="the file you want to load isn't gif";return;
           }
-          gif[num]=Gif.getPImages(this,name);
+          loadNum.add(new Integer(num));
+          loadName.add(new String(name));
+          gifName[num]=name;
           yay();return;
         }else if(9<=console.length()&&console.substring(5,9).equals("beat")){
           if(console.length()<11){plz("value");return;}
@@ -95,6 +94,7 @@ void keyPressed(){
             consoleMode=3;console="the file you want to load isn't glsl";return;
           }
           shader[num]=loadShader(name);
+          fxName[num]=name;
           yay();return;
         }else{
           consoleMode=3;console="nope";return;
@@ -189,6 +189,9 @@ void keyPressed(){
         }else{
           consoleMode=3;console="nope";return;
         }
+      }else if(4==console.length()&&console.substring(0,4).equals("save")){
+        savePreset();
+        yay();return;
       }else if(3==console.length()&&console.substring(0,3).equals("yay")){
         yay();return;
       }else{

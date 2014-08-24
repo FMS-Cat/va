@@ -1,4 +1,4 @@
-int w=240,h=240;
+int w=1280,h=720;
 
 float bpm=120;
 int millisP;
@@ -20,7 +20,8 @@ import themidibus.*;
 MidiBus myBus;
 
 import gifAnimation.*;
-PImage[][] gif=new PImage[4][];
+PImage[][] gif=new PImage[4][0];
+String[] gifName=new String[4];
 float[] gifBeat=new float[4];
 int gifSel;
 
@@ -29,6 +30,7 @@ float procParam;
 int procMode;
 
 PShader[] shader=new PShader[4];
+String[] fxName=new String[4];
 float[] param=new float[4];
 int fxAble[]=new int[4];
 
@@ -49,9 +51,11 @@ void setup(){
   MidiBus.list();
   myBus=new MidiBus(this,1,-1);
   
-  for(int c=0;c<4;c++)
-  {
-    gif[c]=Gif.getPImages(this,"_/_.gif");
+  gif[0]=Gif.getPImages(this,"_/_.gif");
+  gifName[0]="_/_.gif";
+  for(int c=1;c<4;c++){
+    gif[c]=gif[0];
+    gifName[c]="_/_.gif";
   }
   
   proc=createGraphics(width,height);
@@ -59,13 +63,18 @@ void setup(){
   for(int c=0;c<4;c++)
   {
     shader[c]=loadShader("_/_.glsl");
+    fxName[c]="_/_.glsl";
     fxAble[c]=1;
   }
   
   mouseP[0]=-1;mouseP[1]=-1;beatP=-1;
+  
+  loadPreset();
 }
 
 void draw(){
+  thread("load");
+  
   int gap=millis()-millisP;
   float beatPrv=beat;
   beat+=gap*1./60000*bpm;
@@ -82,7 +91,7 @@ void draw(){
     if(mouseP[0]==4){procParam=mouseX*1./width;}else{param[mouseP[0]]=mouseX*1./width;}
   }
   if(mouseP[1]!=-1){
-    if(mouseP[1]==4){procParam=mouseY*1./height;}else{param[mouseP[1]]=mouseX*1./height;}
+    if(mouseP[1]==4){procParam=mouseY*1./height;}else{param[mouseP[1]]=mouseY*1./height;}
   }
   if(beatP!=-1){
     if(beatP==4){procParam=beatPBas+sin(beatFX*PI)*beatPEnv;}else{param[beatP]=beatPBas+sin(beatFX*PI)*beatPEnv;}
@@ -137,7 +146,7 @@ void draw(){
   
   if(consoleMode!=0)
   {
-    fill(beatFX*127*beatView);
+    fill(beatFX*127*beatView); //<>//
     noStroke();
     rect(0,height-15,width,15);
     if(consoleMode==1)fill(255,255,255);
