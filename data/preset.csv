@@ -1,5 +1,5 @@
 num,name,beat,fxname,param,fxable,assign,env,bpm
-0,weirdcat.gif,0.0,glitch-am.glsl,0.02172732,1,1,0.0,120.0
-1,torus.gif,2.0,slasherpink.glsl,0.0,1,2,0.6,
-2,pink.gif,3.0,trimosaic.glsl,0.004166667,1,0,,
+0,v_gate.gif,8.0,zoomrgb.glsl,0.03532512,1,1,0.0,120.0
+1,torus.gif,2.0,slasherpink.glsl,0.00390625,1,2,0.4,
+2,pink.gif,3.0,trimosaic.glsl,0.022135416,1,0,,
 3,cubes.gif,6.0,_/_.glsl,0.0,1,,,

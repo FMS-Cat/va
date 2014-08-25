@@ -56,6 +56,22 @@ void keyPressed(){
               procMode=1;
               yay();return;
             }
+          }else if(8<=console.length()&&console.substring(5,8).equals("img")){
+            if(10<=console.length()){
+              String name=console.substring(9,console.length());
+              byte[] temp=loadBytes(name);
+              if(temp==null){
+                consoleMode=3;console="not found";return;
+              }
+              procImg=loadImage(name);
+              yay();return;
+            }else{
+              if(procImg==null){
+                consoleMode=3;console="please load the image first";return;
+              }
+              procMode=2;
+              yay();return;
+            }
           }else if(10<=console.length()&&console.substring(5,10).equals("param")){
             if(console.length()<12){plz("value");return;}
             String val=console.substring(11,console.length());
@@ -164,26 +180,20 @@ void keyPressed(){
         yay();return;
       }else if(2<=console.length()&&console.substring(0,2).equals("pm")){
         if(2==console.length()){
-          pm=1-pm;
+          pm=(++pm)%3;
           yay();return;
-        }else if(9==console.length()){
-          int num;
-          String vars=console.substring(3,6);
-          if(vars.equals("pro")){
-            num=4;
-          }else{
-            num=console.charAt(6)-48;
-            if(num<0||3<num){yikes();return;}
-            if(vars.equals("gif")){
-            }else{
-              consoleMode=3;console="nope";return;
-            }
-          }
-          int pos=console.charAt(8)-48;
+        }else if(7==console.length()&&console.substring(3,7).equals("save")){
+          savePm();
+          yay();return;
+        }else if(3<=console.length()){
+          int num=console.charAt(2)-48;
+          if(num<0||4<num){yikes();return;}
+          if(console.length()<5){console=console.substring(0,3)+" 0";}
+          int pos=console.charAt(4)-48;
           if(pos<0||3<pos){consoleMode=3;console="OUCH! You have to select the position by enter a digit 0-3";return;}
-          if(pos==0){pm0x[num]=mouseX;pm0y[num]=mouseY;consoleMode=1;console=console.substring(0,8)+"1";return;}
-          else if(pos==1){pm1x[num]=mouseX;pm1y[num]=mouseY;consoleMode=1;console=console.substring(0,8)+"2";return;}
-          else if(pos==2){pm2x[num]=mouseX;pm2y[num]=mouseY;consoleMode=1;console=console.substring(0,8)+"3";return;}
+          if(pos==0){pm0x[num]=mouseX;pm0y[num]=mouseY;consoleMode=1;console=console.substring(0,4)+"1";return;}
+          else if(pos==1){pm1x[num]=mouseX;pm1y[num]=mouseY;consoleMode=1;console=console.substring(0,4)+"2";return;}
+          else if(pos==2){pm2x[num]=mouseX;pm2y[num]=mouseY;consoleMode=1;console=console.substring(0,4)+"3";return;}
           else if(pos==3){pm3x[num]=mouseX;pm3y[num]=mouseY;yay();return;}
           else{consoleMode=3;console="nope";return;}
         }else{

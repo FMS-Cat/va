@@ -13,12 +13,12 @@ vec2 v=vec2(0,1);
 
 float f(vec3 p)
 {
-    float t=time*.03;
-    p.xy*=mat2(cos(t),-sin(t),sin(t),cos(t));
-    t=sin(time*.03);
-    p.zx*=mat2(cos(t),-sin(t),sin(t),cos(t));
-    t=time*.06;
-    p.yz*=mat2(cos(t),-sin(t),sin(t),cos(t));
+    float t=.03*time;
+    p.xy=p.xy*mat2(cos(t),-sin(t),sin(t),cos(t));
+    t=sin(.03*time);
+    p.zx=p.zx*mat2(cos(t),-sin(t),sin(t),cos(t));
+    t=.06*time;
+    p.yz=p.yz*mat2(cos(t),-sin(t),sin(t),cos(t));
     float r=.1+param*.4;
     float k=.3+param*.1;
     float d=length(p+v.yxx*k)-r;
