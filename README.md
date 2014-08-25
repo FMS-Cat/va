@@ -1,5 +1,13 @@
-#VA Command List
----
+#Visual Anarchist
+Processingで作った、主にgifを扱えるVJソフトです。
+
+- gifに特化、ビートシンクループ
+- 操作はコマンドベース
+- GLSLを用いた高速エフェクト
+- 簡易プロジェクションマッピング機能
+- MIDI制御も可能（WIP）
+
+#Command List
 ###gif
 - `gif(0-3)` gifを切り替えます。
 - `gif(0-3) load (filepath)` gifをロードします。
@@ -41,7 +49,7 @@
 - `pm save` pm.csv として、マッピングした座標のデータを保存します。保存したデータは起動時に読み込まれます。
 
 ###preset
-- `save` .csv として、プリセットを保存します。保存したデータは起動時に読み込まれます。
+- `save` preset.csv として、プリセットを保存します。保存したデータは起動時に読み込まれます。
 
 ###yay
 - `yay` yay
