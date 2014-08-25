@@ -7,6 +7,11 @@ Processingで作った、主にgifを扱えるVJソフトです。
 - 簡易プロジェクションマッピング機能
 - MIDI制御も可能（WIP）
 
+ライブラリが二つ必要です。両方とも Sketch > Import Library > Add Library で追加できます。
+
+- GifAnimation
+- The MidiBus
+
 #Command List
 ###gif
 - `gif(0-3)` gifを切り替えます。
