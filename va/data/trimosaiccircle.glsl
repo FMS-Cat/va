@@ -19,8 +19,10 @@ void main()
 	if(param<.05)
 	{
 		gl_FragColor=texelFetch(texture,ivec2(gl_FragCoord.xy),0);
-	}else{
-		int wid=int(max(size.x/pow(2,int(round(11-param*10))),1));
+	}
+	else
+	{
+		int wid=int(max(size.x/pow(2,int(11-round(param*10))),1));
 		int wid3=int(round(wid*sqrt(3)));
 		ivec2 v1=ivec2(gl_FragCoord.xy-mod(gl_FragCoord.xy,vec2(wid*2,wid3*2)));
 
@@ -38,6 +40,13 @@ void main()
 
 		ivec2 p=ivec2(clamp(v1+v3,ivec2(1),ivec2(size-1)));
 
-		gl_FragColor=texelFetch(texture,p,0);
+		if(length(p-gl_FragCoord.xy)<max(pow(2,round(param*10.))*.16,1.))
+		{
+			gl_FragColor=texelFetch(texture,p,0);
+		}
+		else
+		{
+			gl_FragColor=vec4(0,0,0,1);
+		}
 	}
 }

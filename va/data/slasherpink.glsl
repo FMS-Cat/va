@@ -22,15 +22,11 @@ vec3 hue()
 
 void main()
 {
-	float s=max(size.x,size.y)*sqrt(2)/48.;
+	float s=32;
 	vec3 col;
 	vec3 tex=texelFetch(texture,ivec2(gl_FragCoord.xy),0).xyz;
 	float g=(tex.r+tex.g+tex.b)/3;
-	if(mod(gl_FragCoord.x-gl_FragCoord.y,s)<(param*1.2-.1)*s)
-	{
-		col=(1-g)*hue();
-	}else{
-		col=tex;
-	}
+	float i=clamp((param*1.2-.1)*s-mod(gl_FragCoord.x-gl_FragCoord.y,s),0.,1.);
+	col=(1-g)*hue()*i+tex*(1-i);
 	gl_FragColor=vec4(vec3(col),1);
 }

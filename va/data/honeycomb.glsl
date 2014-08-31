@@ -11,7 +11,10 @@ uniform float param;
 
 void comp(ivec2 v2,inout ivec2 v3,ivec2 i)
 {
-	if(length(v2-i)<length(v2-v3))v3=i;
+	if(length(v2-i)<length(v2-v3))
+	{
+		v3=i;
+	}
 }
 
 void main()
@@ -19,8 +22,10 @@ void main()
 	if(param<.05)
 	{
 		gl_FragColor=texelFetch(texture,ivec2(gl_FragCoord.xy),0);
-	}else{
-		int wid=int(max(size.x/pow(2,int(round(11-param*10))),1));
+	}
+	else
+	{
+		int wid=int(max(size.x/pow(2,int(11-round(param*10))),1));
 		int wid3=int(round(wid*sqrt(3)));
 		ivec2 v1=ivec2(gl_FragCoord.xy-mod(gl_FragCoord.xy,vec2(wid*2,wid3*2)));
 
@@ -28,13 +33,9 @@ void main()
 
 		ivec2 v3=ivec2(0);
 		comp(v2,v3,ivec2(wid*2,0));
-		comp(v2,v3,ivec2(wid,wid3/3));
 		comp(v2,v3,ivec2(wid,wid3));
-		comp(v2,v3,ivec2(0,wid3*4/3));
-		comp(v2,v3,ivec2(wid*2,wid3*4/3));
 		comp(v2,v3,ivec2(0,wid3*2));
 		comp(v2,v3,ivec2(wid*2,wid3*2));
-		comp(v2,v3,ivec2(0,wid3*2)+ivec2(wid,wid3/3));
 
 		ivec2 p=ivec2(clamp(v1+v3,ivec2(1),ivec2(size-1)));
 

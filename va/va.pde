@@ -1,5 +1,3 @@
-int w=1280,h=768;
-
 float bpm=120;
 int millisP;
 float beat,beatFX;
@@ -41,7 +39,7 @@ float beatPBas,beatPEnv;
 int cursor=1;
 
 void setup(){
-  size(w,h,P2D);
+  size(640,480,P2D);
   imageMode(CENTER);
   
   font=loadFont("_/font.vlw");
@@ -170,7 +168,7 @@ void draw(){
   
   if(consoleMode!=0)
   {
-    fill(beatFX*127*beatView); //<>//
+    fill(beatFX*127*beatView);
     noStroke();
     rect(0,height-15,width,15);
     if(consoleMode==1)fill(255,255,255);
