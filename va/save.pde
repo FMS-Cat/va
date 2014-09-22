@@ -97,7 +97,7 @@ void savePm()
   table.addColumn("3x");
   table.addColumn("3y");
   
-  for(int c=0;c<5;c++)
+  for(int c=0;c<4;c++)
   {
     TableRow row=table.addRow();
     row.setInt("num",c);

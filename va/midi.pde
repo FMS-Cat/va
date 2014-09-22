@@ -23,10 +23,6 @@ void controllerChange(int ch,int num,int val){
       int layer=num-1;
       param[layer]=val/127.;
     }
-    if(num==5)
-    {
-      procParam=val/127.;
-    }
   }
   
   println("MIDI CC : "+ch+" - "+num+" - "+val);

@@ -45,46 +45,6 @@ void keyPressed(){
         }else{
           consoleMode=3;console="nope";return;
         }
-      }else if(4<=console.length()&&console.substring(0,4).equals("proc")){
-        if(6<=console.length()){
-          if(9<=console.length()&&console.substring(5,9).equals("text")){
-            if(11<=console.length()){
-              procText=console.substring(10,console.length());
-              yay();return;
-            }else{
-              procFont=loadFont("_/helv.vlw");
-              procMode=1;
-              yay();return;
-            }
-          }else if(8<=console.length()&&console.substring(5,8).equals("img")){
-            if(10<=console.length()){
-              String name=console.substring(9,console.length());
-              byte[] temp=loadBytes(name);
-              if(temp==null){
-                consoleMode=3;console="not found";return;
-              }
-              procImg=loadImage(name);
-              yay();return;
-            }else{
-              if(procImg==null){
-                consoleMode=3;console="please load the image first";return;
-              }
-              procMode=2;
-              yay();return;
-            }
-          }else if(10<=console.length()&&console.substring(5,10).equals("param")){
-            if(console.length()<12){plz("value");return;}
-            String val=console.substring(11,console.length());
-            if(Float.isNaN(float(val))){nan();return;}
-            procParam=float(val);
-            yay();return;
-          }else{
-            consoleMode=3;console="nope";return;
-          }
-        }else{
-          procMode=0;
-          yay();return;
-        }
       }else if(2<=console.length()&&console.substring(0,2).equals("fx")){
       if(2==console.length()){yikes();return;}
         int num=console.charAt(2)-48;
@@ -157,7 +117,7 @@ void keyPressed(){
           yay();return;
         }else{
           int num=console.charAt(4)-48;
-          if(num<0||4<num){consoleMode=3;console="YIKES! You have to select the bank by enter a digit 0-4 (proc is 4)";return;}
+          if(num<0||3<num){yikes();return;}
           beatP=num;
           yay();return;
         }
@@ -171,7 +131,7 @@ void keyPressed(){
           yay();return;
         }else{
           int num=console.charAt(6)-48;
-          if(num<0||4<num){consoleMode=3;console="YIKES! You have to select the bank by enter a digit 0-4 (proc is 4)";return;}
+          if(num<0||3<num){yikes();return;}
           mouseP[vars]=num;
           yay();return;
         }
@@ -187,7 +147,7 @@ void keyPressed(){
           yay();return;
         }else if(3<=console.length()){
           int num=console.charAt(2)-48;
-          if(num<0||4<num){yikes();return;}
+          if(num<0||3<num){yikes();return;}
           if(console.length()<5){console=console.substring(0,3)+" 0";}
           int pos=console.charAt(4)-48;
           if(pos<0||3<pos){consoleMode=3;console="OUCH! You have to select the position by enter a digit 0-3";return;}

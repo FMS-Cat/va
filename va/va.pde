@@ -11,7 +11,7 @@ int consoleMode;
 PFont font;
 
 int pm=0;
-int[] pm0x=new int[5],pm0y=new int[5],pm1x=new int[5],pm1y=new int[5],pm2x=new int[5],pm2y=new int[5],pm3x=new int[5],pm3y=new int[5];
+int[] pm0x=new int[4],pm0y=new int[4],pm1x=new int[4],pm1y=new int[4],pm2x=new int[4],pm2y=new int[4],pm3x=new int[4],pm3y=new int[4];
 PShader pmShader,pmShader4;
 
 import themidibus.*;
@@ -22,10 +22,6 @@ PImage[][] gif=new PImage[4][0];
 String[] gifName=new String[4];
 float[] gifBeat=new float[4];
 int gifSel;
-
-PGraphics proc;
-float procParam;
-int procMode;
 
 PShader[] shader=new PShader[4];
 String[] fxName=new String[4];
@@ -39,7 +35,7 @@ float beatPBas,beatPEnv;
 int cursor=1;
 
 void setup(){
-  size(640,480,P2D);
+  size(displayWidth,displayHeight,P2D);
   imageMode(CENTER);
   
   font=loadFont("_/font.vlw");
@@ -56,8 +52,6 @@ void setup(){
     gif[c]=gif[0];
     gifName[c]="_/_.gif";
   }
-  
-  proc=createGraphics(width,height);
   
   for(int c=0;c<4;c++)
   {
@@ -88,13 +82,13 @@ void draw(){
   background(0);
   
   if(mouseP[0]!=-1){
-    if(mouseP[0]==4){procParam=mouseX*1./width;}else{param[mouseP[0]]=mouseX*1./width;}
+    param[mouseP[0]]=mouseX*1./width;
   }
   if(mouseP[1]!=-1){
-    if(mouseP[1]==4){procParam=mouseY*1./height;}else{param[mouseP[1]]=mouseY*1./height;}
+    param[mouseP[1]]=mouseY*1./height;
   }
   if(beatP!=-1){
-    if(beatP==4){procParam=beatPBas+sin(beatFX*PI)*beatPEnv;}else{param[beatP]=beatPBas+sin(beatFX*PI)*beatPEnv;}
+    param[beatP]=beatPBas+sin(beatFX*PI)*beatPEnv;
   }
   
   if(pm!=2)
@@ -106,9 +100,6 @@ void draw(){
     }else{
       image(gif[gifSel][int(((beat/gifBeat[gifSel])%1)*gif[gifSel].length)],width/2,height/2,gif[gifSel][0].width*size,gif[gifSel][0].height*size);
     }
-    
-    proc();
-    image(proc,width/2,height/2);
     
     for(int c=0;c<4;c++)
     {
@@ -156,14 +147,6 @@ void draw(){
       }
       filter(pmShader);
     }
-    proc();
-    pmShader.set("size",width,height);
-    pmShader.set("E0",pm0x[4],pm0y[4]);
-    pmShader.set("E1",pm1x[4],pm1y[4]);
-    pmShader.set("E2",pm2x[4],pm2y[4]);
-    pmShader.set("E3",pm3x[4],pm3y[4]);
-    pmShader.set("tex",proc);
-    filter(pmShader);
   }
   
   if(consoleMode!=0)
